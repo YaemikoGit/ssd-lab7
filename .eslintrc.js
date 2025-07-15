@@ -7,7 +7,9 @@ module.exports = {
     'eslint:recommended',
     'plugin:react/recommended',
     'plugin:@typescript-eslint/recommended',
-    'plugin:security/recommended'
+    'plugin:security/recommended',
+    'plugin:security-node/recommended',
+    'plugin:no-unsanitized/recommended'
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
@@ -20,7 +22,9 @@ module.exports = {
   plugins: [
     'react',
     '@typescript-eslint',
-    'security'
+    'security',
+    'security-node',
+    'no-unsanitized'
   ],
   rules: {
     'security/detect-eval-with-expression': 'error'
