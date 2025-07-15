@@ -1,37 +1,48 @@
 import js from "@eslint/js";
 import globals from "globals";
 import { defineConfig } from "eslint/config";
+import pluginReact from "eslint-plugin-react";
+import pluginSecurity from "eslint-plugin-security";
 
 export default defineConfig([
   // Base JS config
   {
-    files: ["**/*.{js,mjs,cjs,jsx}"],
+    files: ["**/*.{js,mjs,cjs,jsx,ts,tsx}"],
     languageOptions: {
       ecmaVersion: "latest",
       sourceType: "module",
       globals: {
-        ...globals.browser, // browser globals (like window, document)
+        ...globals.browser,
       },
     },
     plugins: {
       js,
+      react: pluginReact,
+      security: pluginSecurity,
+    },
+    settings: {
+      react: {
+        version: "detect", // Automatically detect the React version
+      },
     },
     rules: {
       ...js.configs.recommended.rules,
+      ...pluginReact.configs.recommended.rules,
+      "security/detect-eval-with-expression": "error",
     },
   },
 
-  // Node.js support (e.g., process.env)
+  // Node.js support
   {
     files: ["**/*.{js,mjs,cjs}"],
     languageOptions: {
       globals: {
-        ...globals.node, // adds process, __dirname, etc.
+        ...globals.node,
       },
     },
   },
 
-  // Mocha test globals (describe, it, after)
+  // Mocha test support
   {
     files: ["tests/**/*.{js,mjs}"],
     languageOptions: {
@@ -40,20 +51,4 @@ export default defineConfig([
       },
     },
   },
-
-  // // React plugin (includes JSX rules)
-  // {
-  //   files: ["**/*.{js,jsx}"],
-  //   plugins: {
-  //     react: pluginReact,
-  //   },
-  //   settings: {
-  //     react: {
-  //       version: "detect", // to silence the React version warning
-  //     },
-  //   },
-  //   rules: {
-  //     ...pluginReact.configs.recommended.rules,
-  //   },
-  // },
 ]);
